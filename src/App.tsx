@@ -42,6 +42,19 @@ const parseTags = (text: string) =>
     .map((tag) => tag.trim())
     .filter(Boolean)
 
+const deriveTitle = (input: { title: string; link: string; media_url: string; note: string }) => {
+  const trimmedTitle = input.title.trim()
+  if (trimmedTitle) {
+    return trimmedTitle
+  }
+
+  const fallback = [input.link, input.media_url, input.note]
+    .map((value) => value.trim())
+    .find(Boolean)
+
+  return fallback ? fallback.slice(0, 120) : 'Untitled capture'
+}
+
 const parseSharePrefill = (search: string): SharePrefill | null => {
   const params = new URLSearchParams(search)
   const title = (params.get('title') ?? '').trim()
@@ -181,6 +194,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
+          title: deriveTitle(form),
           tags: parseTags(form.tags),
           link: form.link || null,
           media_url: form.media_url || null,
@@ -272,7 +286,7 @@ function App() {
             <h2>Capture a half-sheet</h2>
             <label>
               Title
-              <input required value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} />
+              <input value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} />
             </label>
             <label>
               Link

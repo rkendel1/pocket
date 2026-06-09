@@ -4,7 +4,7 @@ Device-friendly full-stack MVP for a personal inspiration aggregator with a ligh
 
 ## What is included
 
-- **Half-sheet capture**: title, link/media, note, tags, board, lane, mood, optional public sharing.
+- **Half-sheet capture**: single-click save with optional title (auto-derived from link/media/note), plus tags, board, lane, mood, and optional public sharing.
 - **Organization views**: Kanban lanes, moodboard grid, timeline, and a connection graph.
 - **Discover**: live search, recommendations from your own library, and opt-in public curations.
 - **Analysis**: topic clustering, interest heatmap, reflection digest, and generated passion report.
