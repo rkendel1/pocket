@@ -34,6 +34,7 @@ const lanes = ['idea', 'explore', 'act', 'archive']
 const views = ['capture', 'kanban', 'moodboard', 'timeline', 'graph', 'insights', 'explore'] as const
 
 type View = (typeof views)[number]
+type SharePrefill = Pick<Card, 'title' | 'link' | 'note'> & { tags: string }
 
 const parseTags = (text: string) =>
   text
@@ -41,7 +42,27 @@ const parseTags = (text: string) =>
     .map((tag) => tag.trim())
     .filter(Boolean)
 
+const parseSharePrefill = (search: string): SharePrefill | null => {
+  const params = new URLSearchParams(search)
+  const title = (params.get('title') ?? '').trim()
+  const link = (params.get('url') ?? params.get('link') ?? '').trim()
+  const note = (params.get('text') ?? params.get('note') ?? '').trim()
+  const tags = (params.get('tags') ?? '').trim()
+
+  if (!title && !link && !note && !tags) {
+    return null
+  }
+
+  return {
+    title: title || link || 'Shared item',
+    link: link || null,
+    note,
+    tags,
+  }
+}
+
 function App() {
+  const sharePrefill = parseSharePrefill(window.location.search)
   const [cards, setCards] = useState<Card[]>([])
   const [publicCards, setPublicCards] = useState<Card[]>([])
   const [insights, setInsights] = useState<InsightPayload | null>(null)
@@ -51,14 +72,15 @@ function App() {
   const [view, setView] = useState<View>('capture')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [shareNotice] = useState(sharePrefill ? 'Shared content added. Review it and tap “Save this for me”.' : '')
 
   const [form, setForm] = useState({
-    title: '',
-    link: '',
+    title: sharePrefill?.title ?? '',
+    link: sharePrefill?.link ?? '',
     media_url: '',
     media_type: 'article',
-    note: '',
-    tags: '',
+    note: sharePrefill?.note ?? '',
+    tags: sharePrefill?.tags ?? '',
     board: 'Inbox',
     lane: 'idea',
     mood: 'curious',
@@ -139,6 +161,14 @@ function App() {
 
     return () => clearInterval(timer)
   }, [query, refreshData])
+
+  useEffect(() => {
+    if (!sharePrefill) {
+      return
+    }
+
+    window.history.replaceState({}, '', window.location.pathname)
+  }, [sharePrefill])
 
   const submitCard = async (event: FormEvent) => {
     event.preventDefault()
@@ -234,6 +264,7 @@ function App() {
       </section>
 
       {error ? <p className="error">{error}</p> : null}
+      {shareNotice ? <p className="notice">{shareNotice}</p> : null}
 
       {view === 'capture' ? (
         <section className="panel split">

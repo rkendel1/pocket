@@ -9,6 +9,7 @@ Device-friendly full-stack MVP for a personal inspiration aggregator with a ligh
 - **Discover**: live search, recommendations from your own library, and opt-in public curations.
 - **Analysis**: topic clustering, interest heatmap, reflection digest, and generated passion report.
 - **Infrastructure**: React + Vite frontend, Express API, SQLite persistence, polling-based multi-device sync.
+- **Share-style capture**: shared URLs/text (`title`, `text`, `url`) prefill the capture form so external send/share flows feel like an export into Pocket.
 
 ## Run locally
 
@@ -19,6 +20,12 @@ npm run dev
 
 Frontend: `http://localhost:5173`  
 API: `http://localhost:8787`
+
+## Share into Pocket
+
+Open the app with query parameters to prefill capture from a share/export flow:
+
+`/?title=Some+Title&text=Optional+note&url=https%3A%2F%2Fexample.com`
 
 ## Scripts
 
