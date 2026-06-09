@@ -1,0 +1,183 @@
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  color: #101828;
+}
+
+header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  margin-top: 0;
+  color: #475467;
+}
+
+.controls {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.controls input {
+  padding: 0.65rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d0d5dd;
+}
+
+nav {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+nav button,
+.capture-form button,
+.actions button {
+  border: 1px solid #d0d5dd;
+  background: #fff;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.45rem;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: #101828;
+  color: #fff;
+  border-color: #101828;
+}
+
+.panel {
+  border: 1px solid #eaecf0;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.capture-form {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.capture-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.92rem;
+}
+
+.capture-form input,
+.capture-form textarea,
+.capture-form select {
+  padding: 0.55rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d0d5dd;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.checkbox {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.activity li {
+  border: 1px solid #eaecf0;
+  border-radius: 0.5rem;
+  padding: 0.6rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.activity time {
+  color: #667085;
+  font-size: 0.85rem;
+}
+
+.lane-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.card {
+  border: 1px solid #eaecf0;
+  border-radius: 0.5rem;
+  padding: 0.65rem;
+  margin-bottom: 0.5rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.75rem;
+}
+
+.mood img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+
+.timeline {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.timeline article {
+  border-left: 3px solid #2e90fa;
+  padding-left: 0.7rem;
+}
+
+.heatmap {
+  list-style: none;
+  padding: 0;
+}
+
+.heatmap li {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 2fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.error {
+  color: #b42318;
+}
+
+@media (max-width: 900px) {
+  .split,
+  .lane-grid,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
