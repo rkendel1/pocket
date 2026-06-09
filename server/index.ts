@@ -4,6 +4,7 @@ import cors from 'cors'
 import Database from 'better-sqlite3'
 import express from 'express'
 import { rateLimit } from 'express-rate-limit'
+import { autoCategorizeCard } from './categorize'
 import { buildConnections, computeInsights, type Card } from './insights'
 
 const app = express()
@@ -99,9 +100,19 @@ app.post('/api/cards', writeLimiter, (req, res) => {
     return
   }
 
-  const tags = Array.isArray(payload.tags)
+  const normalizedTags = Array.isArray(payload.tags)
     ? payload.tags.map((tag) => String(tag).trim()).filter(Boolean)
     : []
+  const categorization = autoCategorizeCard({
+    title: payload.title,
+    note: payload.note,
+    link: payload.link,
+    media_type: payload.media_type,
+    tags: normalizedTags,
+    board: payload.board,
+    lane: payload.lane,
+    mood: payload.mood,
+  })
 
   const createdAt = new Date().toISOString()
   const result = db
@@ -115,10 +126,10 @@ app.post('/api/cards', writeLimiter, (req, res) => {
       payload.media_url?.trim() ?? null,
       payload.media_type?.trim() ?? null,
       payload.note?.trim() ?? '',
-      JSON.stringify(tags),
-      payload.board?.trim() || 'Inbox',
-      payload.lane?.trim() || 'idea',
-      payload.mood?.trim() || 'curious',
+      JSON.stringify(categorization.tags),
+      categorization.board,
+      categorization.lane,
+      categorization.mood,
       payload.is_public ? 1 : 0,
       createdAt,
     )
